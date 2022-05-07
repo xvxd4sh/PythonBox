@@ -4,5 +4,10 @@ A command line interface program written in Python for networking research or te
 # list of tools 
 - ping 
 
+# being implemented currently 
+- docker management 
+
 # not implemented yet 
-- docker management
+- networking tool sets 
+- system tool sets 
+- 

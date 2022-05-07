@@ -7,7 +7,7 @@ from utility import *
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "hpd:", ["help", "ping", "docker"])
+        opts, args = getopt.getopt(argv, "hnd:", ["help", "network", "docker"])
     except getopt.GetoptError:
         print('error')
         sys.exit(2)
@@ -15,18 +15,23 @@ def main(argv):
         if opt in ["-h", "--help"]:
             gethelp()
             sys.exit()
-        elif opt in ["-p", "--ping"]:
-            ip_address = args
-            if is_valid_ipv4_address(ip_address):
-                print("sending ping to", ip_address)
-                ping(ip_address)
-            else:
-                if ip_address is None:
-                    print("you did not put an IP")
-                    gethelp_ping()
+        elif opt in ["-n", "--network"]:
+            parameters = args
+            print(args)
+            if parameters == "ping":
+                ip_address = parameters[1:]
+                if is_valid_ipv4_address(ip_address):
+                    print("sending ping to", ip_address)
+                    ping(ip_address)
                 else:
-                    gethelp_ping()
-                    print("invalid IP Address")
+                    if ip_address is None:
+                        print("you did not put an IP")
+                        gethelp_ping()
+                    else:
+                        gethelp_ping()
+                        print("invalid IP Address")
+            else:
+                gethelp_network()
         elif opt in ["-d", "--docker"]:
             print("Docker utility tools activated")
             parameters = args

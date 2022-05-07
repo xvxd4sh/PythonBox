@@ -28,7 +28,6 @@ def is_valid_ipv6_address(address):
 
 def ping(address):
     response = os.system("ping -n 1 " + address)
-
     if response == 0:
         print("Woo it is alive")
     else:

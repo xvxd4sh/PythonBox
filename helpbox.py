@@ -70,14 +70,23 @@ def gethelp():
           "usage: pythonbox [options] [command]\n"
           "\n"
           "options:\n"
-          "     -h, --help                Print help text\n"
-          "     -p, --ping                Ping an IP \n"
+          "         -h, --help                Print help text\n"
+          "         -n, --network             Utilize a networking module to conduct networking tasks\n"
+          "         -d, --docker              Utilize a docker module to conduct docker management\n"
+          )
+
+def gethelp_network():
+    print("----------------------------------------------------\n"
+          "usage: pythonbox --network [commands]\n"
+          "\n"
+          "commands: \n"
+          "          ping                    Utilize ICMP packet to see if a host is online\n"
           )
 
 
 def gethelp_ping():
     print("----------------------------------------------------\n"
-          "usage: pythonbox --ping [IP address]\n"
+          "usage: pythonbox --network ping [IP address]\n"
           "\n"
           "IP address : IPV4 address (format [0-255].[0-255].[0-255].[0-255]\n)"
           )
