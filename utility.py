@@ -30,12 +30,45 @@ def is_valid_ipv6_address(address):
 
 
 def ping(address):
-    response = os.system("ping -n 1 " + address)
+    response = os.system("ping -c 1 " + address)
     if response == 0:
         print("Woo it is alive")
     else:
         print("it sure is stinky in here, cause its dead. ")
 
+def network_config():
+    network = psutil.net_io_counters(pernic=True)
+    ifaces = psutil.net_if_addrs()
+    networks = list()
+    for k, v in ifaces.items():
+        ip = v[0].address
+        data = network[k]
+        ifnet = dict()
+        ifnet['ip'] = ip
+        ifnet['iface'] = k
+        ifnet['sent'] = '%.2fMB' % (data.bytes_sent/1024/1024)
+        ifnet['recv'] = '%.2fMB' % (data.bytes_recv/1024/1024)
+        ifnet['packets_sent'] = data.packets_sent
+        ifnet['packets_recv'] = data.packets_recv
+        ifnet['errin'] = data.errin
+        ifnet['errout'] = data.errout
+        ifnet['dropin'] = data.dropin
+        ifnet['dropout'] = data.dropout
+        networks.append(ifnet)
+    return networks
+
+def network_pretty_print():
+    network = network_config()
+#   Name: $value IP: $value stats:[packets_sent / packets received]
+    for items in network:
+        print("Name: "+items['iface']+" IP: "+items['ip']+" Stats: [ sent/receive :"+items['sent']+"/"+items['recv']+"]")
+
+def network_iface_list():
+    network = network_config()
+    network_names = []
+    for items in network:
+        network_names.append(items['iface'])
+    return network_names
 
 def verify_docker_installation() -> bool:
     result = subprocess.Popen(["docker", "-v"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -55,6 +88,16 @@ def verify_installed(name) -> bool:
     else:
         return False
 
+def system_audit():
+    if verify_installed("git"):
+        if os.path.isdir("./lynis"):
+            os.system("rm -rf lynis")
+        else:
+            os.system("git clone https://github.com/CISOfy/lynis")
+            if os.path.isdir("./lynis"):
+                os.system("cd lynis/ && ./lynis audit system > ../system_audit.txt")
+                print("System Audit is complete -- Check your audit report")
+                os.system("cd ..")
 
 def find_docker_names() -> list:
     names = list()

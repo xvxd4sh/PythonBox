@@ -57,8 +57,7 @@ SS          ;,.      ;,.    SS    ;,. SS    ;,. SS    ;,. SS    ;,. SS    ;,. SS
 /   )    \      /          (_I_)   (_{;}_)|   |   '. \_/``".'  |  |    |  ||  (_,_)  /  '. \_/``".'   /  /   \    \  
 `---'     `-..-'           '---'   '(_,_) '---'     '-----'    '--'    '--'/_______.'     '-----'    '--'     '----' 
                                                                                                                      
-"""
-               ]
+"""]
 
 
 def getbanner():
@@ -80,6 +79,7 @@ def gethelp_network():
           "usage: pythonbox --network [commands]\n"
           "\n"
           "commands: \n"
+          "          check ------------------- conduct a network check (network-interface)\n"
           "          ping -------------------- Utilize ICMP packet to see if a host is online\n"
           )
 
@@ -103,3 +103,18 @@ def gethelp_docker():
           "          kill -------------------- kill your current docker containers\n"
           "          learn ------------------- learn common commands from different docker function\n"
           )
+
+def gethelp_build():
+    print("----------------------------------------------------\n"
+          "usage: pythonbox --docker build [path]\n"
+          "\n"
+          "path : location of the docker-compose file\n"
+          )
+
+
+def gethelp_system():
+    print("----------------------------------------------------\n"
+          "usage: pythonbox --system [commands]\n"
+          "\n"
+          "commands: \n"
+          "          audit ------------------- conduct a system audit with lynis\n")

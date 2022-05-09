@@ -5,7 +5,6 @@ from utility import *
 
 
 def main(argv):
-
     args = argv
     option = args.pop(0)
 
@@ -14,6 +13,7 @@ def main(argv):
         sys.exit()
 
     elif option in ["-n", "--network"]:
+        print("Network utility tools activated")
         if len(args) >= 1:
             command = args.pop(0)
             if command == "ping":
@@ -30,6 +30,8 @@ def main(argv):
                 else:
                     gethelp_ping()
                     print("invalid IP Address")
+            elif command == "check":
+                network_pretty_print()
             else:
                 gethelp_network()
         else:
@@ -46,7 +48,10 @@ def main(argv):
                 find_docker_compose_file_print()
             elif command == "build":
                 path = args.pop(0)
-                docker_build(path)
+                if os.path.isdir(path):
+                    docker_build(path)
+                else:
+                    gethelp_build()
             elif command == "restart":
                 docker_restart()
             elif command == "kill":
@@ -58,6 +63,16 @@ def main(argv):
         else:
             gethelp_docker()
 
+    elif option in ["-s", "--system"]:
+        print("System utility tool activated")
+        if len(args) >= 1:
+            command = args.pop(0)
+            if command == "audit":
+                system_audit()
+            else:
+                gethelp_system()
+        else:
+            gethelp_system()
     else:
         gethelp()
 
