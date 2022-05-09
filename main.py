@@ -16,7 +16,7 @@ def main(argv):
             gethelp()
             sys.exit()
         elif opt in ["-n", "--network"]:
-            parameters = args
+            parameters = args[0]
             print(args)
             if parameters == "ping":
                 ip_address = parameters[1:]
@@ -34,11 +34,20 @@ def main(argv):
                 gethelp_network()
         elif opt in ["-d", "--docker"]:
             print("Docker utility tools activated")
-            parameters = args
-            if parameters == "ps":
-                print("ps on docker is being executed")
-            elif parameters == "ps-find":
-                print("ps-find on docker is being executed")
+            parameters = args[0]
+            if parameters == "list":
+                docker_ps()
+            elif parameters == "find":
+                print("finding active docker-compose file")
+                find_docker_compose_file_print()
+            elif parameters == "build":
+                docker_build(args[1])
+            elif parameters == "restart":
+                docker_restart()
+            elif parameters == "kill":
+                docker_kill()
+            elif parameters == "learn":
+                docker_learn()
             else:
                 gethelp_docker()
         else:

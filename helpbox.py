@@ -70,9 +70,9 @@ def gethelp():
           "usage: pythonbox [options] [command]\n"
           "\n"
           "options:\n"
-          "         -h, --help                Print help text\n"
-          "         -n, --network             Utilize a networking module to conduct networking tasks\n"
-          "         -d, --docker              Utilize a docker module to conduct docker management\n"
+          "         -h, --help --------------- Print help text\n"
+          "         -n, --network ------------ Utilize a networking module to conduct networking tasks\n"
+          "         -d, --docker ------------- Utilize a docker module to conduct docker management\n"
           )
 
 def gethelp_network():
@@ -80,7 +80,7 @@ def gethelp_network():
           "usage: pythonbox --network [commands]\n"
           "\n"
           "commands: \n"
-          "          ping                    Utilize ICMP packet to see if a host is online\n"
+          "          ping -------------------- Utilize ICMP packet to see if a host is online\n"
           )
 
 
@@ -96,6 +96,10 @@ def gethelp_docker():
           "usage: pythonbox --docker [commands]\n"
           "\n"
           "commands: \n"
-          "          ps                   list all running containers\n"
-          "          ps-find              list all running container and their docker compose file\n"
+          "          list -------------------- list all running containers\n"
+          "          find -------------------- list all running container and their docker compose file\n"
+          "          build ------------------- build your docker container from a path\n"
+          "          restart ----------------- restart your current running docker container\n"
+          "          kill -------------------- kill your current docker containers\n"
+          "          learn ------------------- learn common commands from different docker function\n"
           )

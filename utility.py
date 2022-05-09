@@ -5,6 +5,7 @@ import psutil
 
 from visual import *
 
+
 def is_valid_ipv4_address(address):
     try:
         socket.inet_pton(socket.AF_INET, address)
@@ -71,6 +72,7 @@ def find_docker_compose_file_print():
                                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             print("{} : {}".format(items, container_inspect.stdout))
 
+
 def find_docker_compose_file_list():
     final_compose_file = []
     temp = []
@@ -82,15 +84,16 @@ def find_docker_compose_file_list():
             container_inspect = subprocess.run(["docker", "container", "inspect", items, "--format",
                                                 "\'{{ index .Config.Labels \"com.docker.compose.project.working_dir\" }}\'"],
                                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-            temp.append("{}".format(container_inspect.stdout))
-    #todo - parsing temp for final list
+            temp.append(container_inspect.stdout.strip().strip("'"))
+    for paths in temp:
+        if paths not in final_compose_file:
+            final_compose_file.append(paths)
     return final_compose_file
 
 
 def docker_ps():
     result = subprocess.run(["docker", "ps"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     print(result.stdout)
-
 
 
 # kill hanging docker instance
@@ -104,6 +107,7 @@ def docker_kill():
         waiting(25)
     else:
         print("No process ID has been successfully located")
+
 
 # make a system to build based on a path
 def docker_build(dir_path):
@@ -120,13 +124,56 @@ def docker_build(dir_path):
         print("Something is wrong with your path")
 
 
-# todo - make a system to build based on a path
+# make a system to build based on a path
 def docker_restart():
-    #todo - use find_docker_compose_file_list() to start the initial process
-    print("not done")
+    unique_path = find_docker_compose_file_list()
+    for path in unique_path:
+        if os.path.isdir(path):
+            docker_compose_file = path + "/docker-compose.yml"
+            result = os.system("docker-compose -f " + docker_compose_file + " down &")
+            waiting(30)
+            building = os.system("docker-compose -f " + docker_compose_file + " build &")
+            waiting(25)
+            upagain = os.system("docker-compose -f " + docker_compose_file + " up &")
 
-# def docker_learn():
-# todo - help with common build tasks resources(common commands and what they mean, maybe they go into the help box)
+
+#help with common build tasks resources(common commands and what they mean, maybe they go into the help box)
+def docker_learn():
+    print("--------------------------------------------------------------\n"
+          "-------------------Docker short cheatsheet--------------------\n"
+          "--------------------------------------------------------------\n"
+          "\n"
+          "Docker compose common commands:\n"
+          "\n"
+          "docker-compose start ------------------- Start existing container from a service\n"
+          "docker-compose stop -------------------- Stops running containers without removing them\n"
+          "docker-compose pause ------------------- pauses running containers of service\n"
+          "docker-compose unpause ----------------- unpauses paused containers of a service\n"
+          "docker-compose ps ---------------------- lists all containers\n"
+          "docker-compose up ---------------------- Builds, (re)create, start and attaches to container for a service\n"
+          "docker-compose down -------------------- Stops containers and removes containers, networks created by up\n"
+          "\n"
+          "Docker Container management commands: \n"
+          "\n"
+          "docker create (image) [ command ] ------ create the container\n"
+          "docker run (image) [ command ] --------- create and start a container\n"
+          "docker start (container) --------------- start the container\n"
+          "docker stop (container) ---------------- stop a container using SIGTERM and SIGKILL 10 seconds later\n"
+          "docker kill (container) ---------------- Kill the container using a SIGKILL\n"
+          "docker restart (container) ------------- stop the container and start it again\n"
+          "docker pause (container) --------------- suspend the container\n"
+          "docker unpause (container) ------------- resume the container\n"
+          "docker rm [-f] (container) ------------- destroy the container, -f remove running container\n"
+          "\n"
+          "Docker inspection: \n"
+          "\n"
+          "docker ps ------------------------------ list running containers\n"
+          "docker ps -a --------------------------- list all containers \n"
+          "docker logs [-f] (container) ----------- show the container output (stdout + stderr)\n"
+          "docker top (container) [ps option] ----- list the processes running inside the container\n"
+          "docker diff (container) ---------------- show the differences with the image (modified file)\n"
+          "docker inspect (container) ------------- show low-level infos (json format)\n"
+          )
 
 # get a list of all the pids given a partial substring match
 def proc_find(process_name):
@@ -140,6 +187,7 @@ def proc_find(process_name):
             pass
     return list_of_proc
 
+
 def pid_find(list_of_proc):
     list_of_process_by_name = list_of_proc
     list_of_pid = []
@@ -148,4 +196,3 @@ def pid_find(list_of_proc):
             process_id = elem['pid']
             list_of_pid.append(process_id)
     return list_of_pid
-
