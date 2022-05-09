@@ -41,10 +41,18 @@ def verify_docker_installation() -> bool:
     result = subprocess.Popen(["docker", "-v"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     result.wait()
     if result.returncode == 0:
-        print("docker is installed")
+        # print("docker is installed")
         return True
     else:
-        print("I believe that docker is not installed.")
+        # print("I believe that docker is not installed.")
+        return False
+
+
+def verify_installed(name) -> bool:
+    result = subprocess.Popen([name, "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if result.returncode == 0:
+        return True
+    else:
         return False
 
 
@@ -53,7 +61,7 @@ def find_docker_names() -> list:
     result = subprocess.run(["docker", "ps"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     resultparse = result.stdout.split("\n")
     for lines in resultparse:
-        if len(lines) is not 0:
+        if len(lines) != 0:
             linesplit = lines.split()
             names.append(linesplit[0])
     if names[0] == 'CONTAINER':
@@ -64,8 +72,8 @@ def find_docker_names() -> list:
 def find_docker_compose_file_print():
     if verify_docker_installation():
         names = find_docker_names()
-        print("------------------------------------------"
-              "Docker Containers Compile files can be found at: ")
+        print("------------------------------------------\n"
+              "Docker Containers Compile files can be found at: \n")
         for items in names:
             container_inspect = subprocess.run(["docker", "container", "inspect", items, "--format",
                                                 "\'{{ index .Config.Labels \"com.docker.compose.project.working_dir\" }}\'"],
@@ -98,7 +106,7 @@ def docker_ps():
 
 # kill hanging docker instance
 def docker_kill():
-    docker_process = proc_find("docker-compose up")
+    docker_process = proc_find("docker-compose")
     docker_pid = pid_find(docker_process)
     if len(docker_pid) > 0:
         for items in docker_pid:
@@ -107,6 +115,13 @@ def docker_kill():
         waiting(25)
     else:
         print("No process ID has been successfully located")
+        unique_path = find_docker_compose_file_list()
+        for path in unique_path:
+            docker_compose_file = path + "/docker-compose.yml"
+            result = os.system("docker-compose -f " + docker_compose_file + " down &")
+            waiting(30)
+            print("Docker Kill attempt has been made")
+
 
 
 # make a system to build based on a path
@@ -119,7 +134,7 @@ def docker_build(dir_path):
             result = os.system("docker-compose -f " + full_path + " up &")
             waiting(25)
         else:
-            print("There is something wrong with your docker compose file ")
+            print("There is an error in detecting your docker-compose file")
     else:
         print("Something is wrong with your path")
 
@@ -137,7 +152,30 @@ def docker_restart():
             upagain = os.system("docker-compose -f " + docker_compose_file + " up &")
 
 
-#help with common build tasks resources(common commands and what they mean, maybe they go into the help box)
+# get a list of all the pids given a partial substring match
+def proc_find(process_name):
+    list_of_proc = []
+    for proc in psutil.process_iter():
+        try:
+            p_info = proc.as_dict(attrs=['pid', 'name', 'create_time'])
+            if process_name.lower() in p_info['name'].lower():
+                list_of_proc.append(p_info)
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+    return list_of_proc
+
+
+def pid_find(list_of_proc):
+    list_of_process_by_name = list_of_proc
+    list_of_pid = []
+    if len(list_of_process_by_name) > 0:
+        for elem in list_of_process_by_name:
+            process_id = elem['pid']
+            list_of_pid.append(process_id)
+    return list_of_pid
+
+
+# help with common build tasks resources(common commands and what they mean, maybe they go into the help box)
 def docker_learn():
     print("--------------------------------------------------------------\n"
           "-------------------Docker short cheatsheet--------------------\n"
@@ -174,25 +212,3 @@ def docker_learn():
           "docker diff (container) ---------------- show the differences with the image (modified file)\n"
           "docker inspect (container) ------------- show low-level infos (json format)\n"
           )
-
-# get a list of all the pids given a partial substring match
-def proc_find(process_name):
-    list_of_proc = []
-    for proc in psutil.process_iter():
-        try:
-            p_info = proc.as_dict(attrs=['pid', 'name', 'create_time'])
-            if process_name.lower() in p_info['name'].lower():
-                list_of_proc.append(p_info)
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
-    return list_of_proc
-
-
-def pid_find(list_of_proc):
-    list_of_process_by_name = list_of_proc
-    list_of_pid = []
-    if len(list_of_process_by_name) > 0:
-        for elem in list_of_process_by_name:
-            process_id = elem['pid']
-            list_of_pid.append(process_id)
-    return list_of_pid

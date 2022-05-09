@@ -1,13 +1,20 @@
 # PythonBox
-A command line interface program written in Python for networking research or testing. 
+A command line interface program written in Python for networking research or testing.
 
 # list of tools 
-- ping 
-
-# being implemented currently 
 - docker management 
 
-# not implemented yet 
-- networking tool sets 
-- system tool sets 
-- 
+# being implemented currently 
+- system tool sets
+  - potential system hardening stuff 
+  - 
+
+# not implemented yet
+- networking tool sets  
+    - scrappy usage 
+      - Customizable DNS queries
+      - Customizable ARP request, maybe send ARP packet
+      - packet sniffer functionality
+- utility 
+  - reverse shell command generator 
+  - 

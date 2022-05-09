@@ -88,7 +88,7 @@ def gethelp_ping():
     print("----------------------------------------------------\n"
           "usage: pythonbox --network ping [IP address]\n"
           "\n"
-          "IP address : IPV4 address (format [0-255].[0-255].[0-255].[0-255]\n)"
+          "IP address : IPV4 address (format [0-255].[0-255].[0-255].[0-255])\n"
           )
 
 def gethelp_docker():
