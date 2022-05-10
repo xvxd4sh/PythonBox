@@ -118,3 +118,10 @@ def gethelp_system():
           "\n"
           "commands: \n"
           "          audit ------------------- conduct a system audit with lynis\n")
+
+def gethelp_sniff():
+    print("----------------------------------------------------\n"
+          "usage: pythonbox --network sniff [network-interface] [filter]\n"
+          "\n"
+          "Network-interface ------------------- the name of the network interface you are sniffing\n"
+          "filter ------------------------------ (optional) filter to \n")

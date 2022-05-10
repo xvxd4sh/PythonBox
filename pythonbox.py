@@ -32,6 +32,24 @@ def main(argv):
                     print("invalid IP Address")
             elif command == "check":
                 network_pretty_print()
+            elif command == "sniff":
+                if len(args) >= 2:
+                    network_iface = args[0]
+                    filtering = args[1]
+                    network_sniffer(network_iface, filtering)
+                else:
+                    gethelp_sniff()
+                    iface = network_iface_list()
+                    if len(args) == 0:
+                        print("Are you missing the interface name?")
+                        print(iface)
+                    if len(args) == 1:
+                        iface = network_iface_list()
+                        if args[0] not in iface:
+                            print("You're missing the network interface")
+                            print("here is the available interfaces: ", iface)
+                        else:
+                            print("you need a filter")
             else:
                 gethelp_network()
         else:

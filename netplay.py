@@ -1,5 +1,7 @@
+# sniffing file. activate this file for sniffing
 from scapy.all import *
-import subprocess
+import sys
+
 
 def print_packet(pkt):
     print("Sniffed packet: " + pkt['IP'].src + " to " + pkt['IP'].dst)
@@ -10,3 +12,6 @@ def print_packet(pkt):
 def sniff_packet_filter(interface, filter_statement):
     packets = sniff(iface=interface, filter=filter_statement, prn=print_packet)
 
+
+if len(sys.argv) >= 2:
+    sniff_packet_filter(sys.argv[0], sys.argv[1])

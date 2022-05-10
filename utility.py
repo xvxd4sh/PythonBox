@@ -70,6 +70,9 @@ def network_iface_list():
         network_names.append(items['iface'])
     return network_names
 
+def network_sniffer(network , filter_statement):
+    os.system("sudo python3 netplay.py ",network,filter_statement)
+
 def verify_docker_installation() -> bool:
     result = subprocess.Popen(["docker", "-v"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     result.wait()
