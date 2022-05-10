@@ -36,6 +36,7 @@ def ping(address):
     else:
         print("it sure is stinky in here, cause its dead. ")
 
+
 def network_config():
     network = psutil.net_io_counters(pernic=True)
     ifaces = psutil.net_if_addrs()
@@ -46,8 +47,8 @@ def network_config():
         ifnet = dict()
         ifnet['ip'] = ip
         ifnet['iface'] = k
-        ifnet['sent'] = '%.2fMB' % (data.bytes_sent/1024/1024)
-        ifnet['recv'] = '%.2fMB' % (data.bytes_recv/1024/1024)
+        ifnet['sent'] = '%.2fMB' % (data.bytes_sent / 1024 / 1024)
+        ifnet['recv'] = '%.2fMB' % (data.bytes_recv / 1024 / 1024)
         ifnet['packets_sent'] = data.packets_sent
         ifnet['packets_recv'] = data.packets_recv
         ifnet['errin'] = data.errin
@@ -57,11 +58,14 @@ def network_config():
         networks.append(ifnet)
     return networks
 
+
 def network_pretty_print():
     network = network_config()
-#   Name: $value IP: $value stats:[packets_sent / packets received]
+    #   Name: $value IP: $value stats:[packets_sent / packets received]
     for items in network:
-        print("Name: "+items['iface']+" IP: "+items['ip']+" Stats: [ sent/receive :"+items['sent']+"/"+items['recv']+"]")
+        print("Name: " + items['iface'] + " IP: " + items['ip'] + " Stats: [ sent/receive :" + items['sent'] + "/" +
+              items['recv'] + "]")
+
 
 def network_iface_list():
     network = network_config()
@@ -70,8 +74,10 @@ def network_iface_list():
         network_names.append(items['iface'])
     return network_names
 
-def network_sniffer(network , filter_statement):
-    os.system("sudo python3 netplay.py ",network,filter_statement)
+
+def network_sniffer(network, filter_statement):
+    os.system("sudo python3 netplay.py " + network + filter_statement)
+
 
 def verify_docker_installation() -> bool:
     result = subprocess.Popen(["docker", "-v"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -91,6 +97,7 @@ def verify_installed(name) -> bool:
     else:
         return False
 
+
 def system_audit():
     if verify_installed("git"):
         if os.path.isdir("./lynis"):
@@ -101,6 +108,7 @@ def system_audit():
                 os.system("cd lynis/ && ./lynis audit system > ../system_audit.txt")
                 print("System Audit is complete -- Check your audit report")
                 os.system("cd ..")
+
 
 def find_docker_names() -> list:
     names = list()
@@ -167,7 +175,6 @@ def docker_kill():
             result = os.system("docker-compose -f " + docker_compose_file + " down &")
             waiting(30)
             print("Docker Kill attempt has been made")
-
 
 
 # make a system to build based on a path

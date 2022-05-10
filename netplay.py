@@ -14,4 +14,4 @@ def sniff_packet_filter(interface, filter_statement):
 
 
 if len(sys.argv) >= 2:
-    sniff_packet_filter(sys.argv[0], sys.argv[1])
+    sniff_packet_filter(sys.argv[1], sys.argv[2])
