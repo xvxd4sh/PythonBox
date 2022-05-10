@@ -1,28 +1,41 @@
-# PythonBox
-A command line interface program written in Python for networking research or testing.
+```
+██████╗ ██╗   ██╗████████╗██╗  ██╗ ██████╗ ███╗   ██╗██████╗  ██████╗ ██╗  ██╗
+██╔══██╗╚██╗ ██╔╝╚══██╔══╝██║  ██║██╔═══██╗████╗  ██║██╔══██╗██╔═══██╗╚██╗██╔╝
+██████╔╝ ╚████╔╝    ██║   ███████║██║   ██║██╔██╗ ██║██████╔╝██║   ██║ ╚███╔╝
+██╔═══╝   ╚██╔╝     ██║   ██╔══██║██║   ██║██║╚██╗██║██╔══██╗██║   ██║ ██╔██╗
+██║        ██║      ██║   ██║  ██║╚██████╔╝██║ ╚████║██████╔╝╚██████╔╝██╔╝ ██╗
+╚═╝        ╚═╝      ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝
+```
+-------------------------------------------------------------------------------
+A command line interface program written in Python for networking research or testing pursposes
 
-# list of tools 
+-------------------------------------------------------------------------------
+# purpose
+Inspired by an annoyance while setting up and troubleshooting for seed labs and school projects, we decide to build a python tool kit to assist in the troubleshooting and testing process, ranging from docker management to system management. 
+
+## list of funtionality 
 - docker management 
-  - build 
-  - find active docker compose file 
+  - build
   - restart 
   - kill 
   - learn module 
   - list all active docker session
+  - find all active docker compose file
 - networking toolset
   - ping 
   - network config check
+  - sniffer
 - system tool set 
   - lynis auditing
 
-# being implemented currently 
+## Currently being implemented 
+- system tool set 
+  - reverse shell command generator
 
-
-# not implemented yet
-- networking tool sets  
-    - scrappy usage 
+## Future implementation
+- Networking tool sets  
+    - scrapy usage 
       - Customizable DNS queries
       - Customizable ARP request, maybe send ARP packet
-- utility 
-  - reverse shell command generator 
-  - 
+- system upgrade
+  - threading implementation on subsequent processes

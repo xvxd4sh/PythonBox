@@ -81,6 +81,7 @@ def gethelp_network():
           "commands: \n"
           "          check ------------------- conduct a network check (network-interface)\n"
           "          ping -------------------- Utilize ICMP packet to see if a host is online\n"
+          "          sniff ------------------- utilize a network interface to sniff packets\n"
           )
 
 
