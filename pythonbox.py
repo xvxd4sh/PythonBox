@@ -2,6 +2,7 @@ import sys
 
 from helpbox import *
 from utility import *
+from netplay import *
 
 
 def main(argv):
@@ -32,6 +33,25 @@ def main(argv):
                     print("invalid IP Address")
             elif command == "check":
                 network_pretty_print()
+            elif command == "rev_shell":
+                ip = ""
+                port = 0
+                try:
+                    ip = args.pop(0)
+                    port = int(args.pop(0))
+                except Exception as e:
+                    print(e)
+                    gethelp_rev_shell()
+                    return
+                if not is_valid_ipv4_address(ip):
+                    print("Invalid IP address. Please select and valid IP")
+                    gethelp_rev_shell()
+                elif 0 > port or port > 65535:
+                    print("Invalid port. Please pick a port between 0 and 65535")
+                    gethelp_rev_shell()
+                else:
+                    print("Your reverse shell. Fresh off the press!!!!!!")
+                    print(reverse_shell_gen(ip=ip, port=port))
             elif command == "sniff":
                 if len(args) >= 2:
                     network_iface = args[0]

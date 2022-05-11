@@ -82,8 +82,16 @@ def gethelp_network():
           "          check ------------------- conduct a network check (network-interface)\n"
           "          ping -------------------- Utilize ICMP packet to see if a host is online\n"
           "          sniff ------------------- utilize a network interface to sniff packets\n"
+          "          rev_shell --------------- Create a bash reverse shell string to run remotely\n"
           )
 
+def gethelp_rev_shell():
+    print("----------------------------------------------------\n"
+          "usage: pythonbox --network rev_shell [IP address] [Port]\n"
+          "\n"
+          "IP address : IPV4 address (format [0-255].[0-255].[0-255].[0-255])\n"
+          "Port : Port (0-65535)\n"
+          )
 
 def gethelp_ping():
     print("----------------------------------------------------\n"
