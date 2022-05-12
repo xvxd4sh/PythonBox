@@ -72,6 +72,7 @@ def gethelp():
           "         -h, --help --------------- Print help text\n"
           "         -n, --network ------------ Utilize a networking module to conduct networking tasks\n"
           "         -d, --docker ------------- Utilize a docker module to conduct docker management\n"
+          "         -s, --system ------------- Utilize a system module to conduct a system administrator tasks\n"
           )
 
 def gethelp_network():
