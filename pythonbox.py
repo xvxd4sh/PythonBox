@@ -2,7 +2,7 @@ import sys
 
 from helpbox import *
 from utility import *
-from netplay import *
+
 
 
 def main(argv):

@@ -13,7 +13,7 @@ A command line interface program written in Python for networking research or te
 # purpose
 Inspired by an annoyance while setting up and troubleshooting for seed labs and school projects, we decide to build a python tool kit to assist in the troubleshooting and testing process, ranging from docker management to system management. 
 
-## list of funtionality 
+## list of functionality 
 - docker management 
   - build
   - restart 
