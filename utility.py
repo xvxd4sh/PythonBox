@@ -107,13 +107,12 @@ def system_audit():
         os.system("rm -rf lynis")
     else:
         os.system("git clone https://github.com/CISOfy/lynis")
-        waiting(20)
         if os.path.isdir("./lynis"):
             os.system("cd lynis/ && ./lynis audit system > ../system_audit.txt &")
-            waiting(10)
+            waiting(60)
             print("System Audit is complete -- Check your audit report")
             os.system("cd ..")
-            os.system("rm -rf lynis")
+
 
 
 def find_docker_names() -> list:
